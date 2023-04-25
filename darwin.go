@@ -1,3 +1,4 @@
+//go:build darwin
 // +build darwin
 
 package wallpaper
@@ -22,8 +23,14 @@ func Get() (string, error) {
 }
 
 // SetFromFile uses AppleScript to tell Finder to set the desktop wallpaper to specified file.
-func SetFromFile(file string) error {
-	return exec.Command("osascript", "-e", `tell application "System Events" to tell every desktop to set picture to `+strconv.Quote(file)).Run()
+func SetFromFile(file string, desktop ...int) error {
+	cmd := `tell application "System Events" to tell every desktop to set picture to ` + strconv.Quote(file)
+
+	if len(desktop) > 0 && desktop[0] >= 1 {
+		cmd = `tell application "System Events" to tell desktop ` + strconv.Itoa(desktop[0]) + ` to set picture to ` + strconv.Quote(file)
+	}
+
+	return exec.Command("osascript", "-e", cmd).Run()
 }
 
 // SetMode does nothing on macOS.

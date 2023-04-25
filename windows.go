@@ -1,14 +1,16 @@
+//go:build windows
 // +build windows
 
 package wallpaper
 
 import (
-	"golang.org/x/sys/windows/registry"
 	"os"
 	"strings"
 	"syscall"
 	"unicode/utf16"
 	"unsafe"
+
+	"golang.org/x/sys/windows/registry"
 )
 
 // https://msdn.microsoft.com/en-us/library/windows/desktop/ms724947.aspx
@@ -43,7 +45,7 @@ func Get() (string, error) {
 }
 
 // SetFromFile sets the wallpaper for the current user.
-func SetFromFile(filename string) error {
+func SetFromFile(filename string, _ ...int) error {
 	filenameUTF16, err := syscall.UTF16PtrFromString(filename)
 	if err != nil {
 		return err
