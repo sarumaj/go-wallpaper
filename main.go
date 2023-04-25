@@ -63,11 +63,11 @@ func downloadImage(url string) (string, error) {
 }
 
 // SetFromURL downloads the image to a cache directory and calls SetFromFile.
-func SetFromURL(url string) error {
+func SetFromURL(url string, desktop ...int) error {
 	file, err := downloadImage(url)
 	if err != nil {
 		return err
 	}
 
-	return SetFromFile(file)
+	return SetFromFile(file, desktop...)
 }
