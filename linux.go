@@ -13,7 +13,7 @@ import (
 // Get returns the current wallpaper.
 func Get() (string, error) {
 	if isGNOMECompliant() {
-		return parseDconf("gsettings", "get", "org.gnome.desktop.background", "picture-uri")
+		return getGNOME()
 	}
 
 	switch Desktop {
@@ -37,7 +37,7 @@ func Get() (string, error) {
 // SetFromFile sets wallpaper from a file path.
 func SetFromFile(file string, _ ...int) error {
 	if isGNOMECompliant() {
-		return exec.Command("gsettings", "set", "org.gnome.desktop.background", "picture-uri", strconv.Quote("file://"+file)).Run()
+		return setGNOME(file)
 	}
 
 	switch Desktop {

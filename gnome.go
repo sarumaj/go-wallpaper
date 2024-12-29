@@ -2,10 +2,37 @@ package wallpaper
 
 import (
 	"os/exec"
+	"strconv"
 	"strings"
 
 	yaml "gopkg.in/yaml.v2"
 )
+
+func getGNOME() (string, error) {
+	style, err := parseDconf("gsettings", "get", "org.gnome.desktop.interface", "color-scheme")
+	if err != nil {
+		return "", err
+	}
+
+	if style == "prefer-dark" {
+		return parseDconf("gsettings", "get", "org.gnome.desktop.background", "picture-uri-dark")
+	}
+
+	return parseDconf("gsettings", "get", "org.gnome.desktop.background", "picture-uri")
+}
+
+func setGNOME(path string) error {
+	style, err := parseDconf("gsettings", "get", "org.gnome.desktop.interface", "color-scheme")
+	if err != nil {
+		return err
+	}
+
+	if style == "prefer-dark" {
+		return exec.Command("gsettings", "set", "org.gnome.desktop.background", "picture-uri-dark", strconv.Quote("file://"+path)).Run()
+	}
+
+	return exec.Command("gsettings", "set", "org.gnome.desktop.background", "picture-uri", strconv.Quote("file://"+path)).Run()
+}
 
 func removeProtocol(input string) string {
 	if len(input) >= 7 && input[:7] == "file://" {

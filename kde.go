@@ -1,4 +1,5 @@
-//+build linux
+//go:build linux
+// +build linux
 
 package wallpaper
 
@@ -20,10 +21,6 @@ func getKDE() (string, error) {
 	}
 
 	filename := filepath.Join(usr.HomeDir, ".config", "plasma-org.kde.plasma.desktop-appletsrc")
-	if err != nil {
-		return "", err
-	}
-
 	file, err := os.Open(filename)
 	if err != nil {
 		return "", err
