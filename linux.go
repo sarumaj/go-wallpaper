@@ -67,7 +67,7 @@ func SetFromFile(file string, _ ...int) error {
 // SetMode sets the wallpaper mode.
 func SetMode(mode Mode) error {
 	if isGNOMECompliant() {
-		return exec.Command("gsettings", "set", "org.gnome.desktop.background", "picture-options", strconv.Quote(mode.getGNOMEString())).Run()
+		return setGNOMEMode(mode)
 	}
 
 	switch Desktop {
