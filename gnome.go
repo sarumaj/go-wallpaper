@@ -5,7 +5,7 @@ import (
 	"strconv"
 	"strings"
 
-	yaml "gopkg.in/yaml.v2"
+	yaml "gopkg.in/yaml.v3"
 )
 
 func getGNOME() (string, error) {
@@ -50,7 +50,7 @@ func parseDconf(command string, args ...string) (string, error) {
 	// unquote string
 	var unquoted string
 	// the output is quoted with single quotes, which cannot be unquoted using strconv.Unquote, but it is valid yaml
-	err = yaml.UnmarshalStrict(output, &unquoted)
+	err = yaml.Unmarshal(output, &unquoted)
 	if err != nil {
 		return unquoted, err
 	}
