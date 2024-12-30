@@ -19,7 +19,7 @@ func main() {
 		panic(err)
 	}
 
-	err = wallpaper.SetFromURL("https://i.imgur.com/pIwrYeM.jpg")
+	err = wallpaper.SetFromURL("https://picsum.photos/1920/1080")
 	if err != nil {
 		panic(err)
 	}
